@@ -1,0 +1,23 @@
+h1 {
+    color:royalblue;
+    text-align: center;
+}
+h4 {
+    color:royalblue;
+    text-align: center;
+}
+
+button {
+    margin-top: 5px;
+    margin-left:40%;
+}
+textarea{
+    min-height:300px;
+}
+#wrapper {
+    max-width: 200px; /* max-width doesn't behave correctly in legacy IE */
+    margin: 0 auto;
+}
+#wrapper img{
+    width:100%;       /* the image will now scale down as its parent gets smaller */
+}
