@@ -3,8 +3,6 @@ window.onload = function () {
     const mainButton = document.getElementById("sortButton");
     const dataField = document.getElementById("dataField");
 
-    let avgChangeOver = 0;
-    let totalCarts = 0;
     let cartsPerPicker = 0;
 
     let pickers = [];
@@ -17,25 +15,14 @@ window.onload = function () {
     let secsArr = [];
 
     $('#clearButton').click(function () {
-        $("#dataField").val("");
-        avgChangeOver = 0;
-        totalCarts = 0;
-        cartsPerPicker = 0;
-        pickers = [];
-        uniqPickers = [];
-        transObjectArr = [];
-        sortedObjectArr = [];
-        allPickerChangeOvers = [];
-        eachPickerChangeOvers = [];
-        $("#avgChangeover").text(avgChangeOver);
-        $("#totalCarts").text(totalCarts);
-        $("#cartsPerPicker").text(cartsPerPicker);
+        location.reload();
     });
 
     addChangeOver = function () {
         let secsTotal = secsArr.reduce((a, b) => a + b, 0) / 60 / minsArr.length
         let minsTotal = minsArr.reduce((a, b) => (a + secsTotal) + b, 0)
-        return minsTotal / minsArr.length
+        let COT = minsTotal / minsArr.length
+        return (Math.round((COT + Number.EPSILON) * 100) / 100)
     }
 
     mainButton.onclick = function () {
@@ -53,16 +40,19 @@ window.onload = function () {
                 })
             }
         })
-
+        //looking through array of transactions objects and separating the picker names
         transObjectArr.map((item) => {
             pickers.push(item.name)
         })
+        //alphabetizing all pickers
         pickers.sort()
+        //reducing to only 1 instance of each picker (removing duplicates)
         pickers.map((item, index, arr) => {
             if (item !== arr[index + 1]) {
                 uniqPickers.push(item)
             }
         })
+        //re-sorting entire object array based on alphabetical order
         uniqPickers.map(name => {
             transObjectArr.map(item => {
                 if (item.name === name) {
@@ -70,6 +60,7 @@ window.onload = function () {
                 }
             })
         })
+        //addressing changeovers by looking through alphabetized array of objects, and pushing only changeovers out.  (if name is same but cart changes, push the item)
         sortedObjectArr.map((item, index, arr) => {
             if (arr[index + 1] === undefined) {
                 console.log("end of loop")
@@ -78,7 +69,7 @@ window.onload = function () {
                 allPickerChangeOvers.push(item, (arr[index + 1]))
             }
         })
-
+        //if cart does not equal next cart but name equals next name
         allPickerChangeOvers.map((item, index, arr) => {
             if (arr[index + 1] === undefined) {
                 console.log("end of loop")
@@ -108,11 +99,8 @@ window.onload = function () {
             }
         })
 
-        console.log(allTimes)
-        // console.log(uniqPickers)
-
         $("#avgChangeover").text(addChangeOver());
         $("#totalCarts").text(allTimes.length);
-        $("#cartsPerPicker").text(cartsPerPicker/uniqPickers.length);
+        $("#cartsPerPicker").text(Math.round((cartsPerPicker/uniqPickers.length + Number.EPSILON) * 100) / 100);
     }
 };
