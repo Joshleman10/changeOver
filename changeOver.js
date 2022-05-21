@@ -4,24 +4,22 @@ window.onload = function () {
     const dataField = document.getElementById("dataField");
 
     let cartsPerPicker = 0;
+    let totalCarts = 0;
 
     let pickers = [];
     let uniqPickers = [];
     let transObjectArr = [];
     let sortedObjectArr = [];
     let allPickerChangeOvers = [];
-    let allTimes = [];
+    let timesAndPickers = [];
     let minsArr = [];
-    let secsArr = [];
 
     $('#clearButton').click(function () {
         location.reload();
     });
 
     addChangeOver = function () {
-        let secsTotal = secsArr.reduce((a, b) => a + b, 0) / 60 / minsArr.length
-        let minsTotal = minsArr.reduce((a, b) => (a + secsTotal) + b, 0)
-        let COT = minsTotal / minsArr.length
+        let COT = minsArr.reduce((a, b) => a + b, 0) / minsArr.length
         return (Math.round((COT + Number.EPSILON) * 100) / 100)
     }
 
@@ -85,22 +83,50 @@ window.onload = function () {
                     var d = toTime(b) - toTime(a);
                     return d >= 0 ? new Date(0, 0, 0, 0, 0, d).toTimeString().substr(0, 8) : '';
                 }
-                allTimes.push(diff(item.time, (arr[index + 1].time)))
-            }
-        })
 
-        allTimes.map(item => {
-            if (item !== "") {
-                let split = item.split(":")
-                secsArr.push(Number(split[2]))
-                if ((Number(split[1])) < 30) {
-                    minsArr.push(Number(split[1]))
+                let cOTimes = diff(item.time, (arr[index + 1].time))
+
+                if (cOTimes !== "") {
+                    totalCarts++;
+                    let split = cOTimes.split(":")
+                    let mins = Number(split[1]) + (Number(split[2] / 60))
+                    let roundedMins = Math.round((mins + Number.EPSILON) * 100) / 100
+                    if (roundedMins < 30) {
+                        minsArr.push(roundedMins)
+                        timesAndPickers.push({ "name": item.name, "time": roundedMins })
+                    }
                 }
             }
         })
 
+        let topOffenders = timesAndPickers.slice().sort((a, b) => parseFloat(b.time) - parseFloat(a.time));
+
+        //sorting allpickers alphabetically
+        let avgPickerChangeOvers = timesAndPickers.slice().sort((a, b) => {
+            return a.name - b.name
+        })
+
+        //looping through pickers to track average changeover per picker
+        avgPickerChangeOvers.map((item, index, arr) => {
+            let pickerCount = 0;
+            if (arr[index + 1] === undefined) {
+                console.log("end of loop")
+            }
+            else if(item.name !== (arr[index+1].name)){
+                pickerCount++;
+                console.log(arr)
+
+            }
+            
+        })
+
+        topOffenders.map(item => {
+            $("#tableOne").append("<tr><td>" + item.name + "</td></tr>");
+            $("#tableTwo").append("<tr><td>" + item.time + "</td></tr>");
+        })
+
         $("#avgChangeover").text(addChangeOver());
-        $("#totalCarts").text(allTimes.length);
-        $("#cartsPerPicker").text(Math.round((cartsPerPicker/uniqPickers.length + Number.EPSILON) * 100) / 100);
+        $("#totalCarts").text(totalCarts);
+        $("#cartsPerPicker").text(Math.round((cartsPerPicker / uniqPickers.length + Number.EPSILON) * 100) / 100);
     }
 };

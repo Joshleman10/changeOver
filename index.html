@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="styles.css">
     <title>Multis Changeover Time</title>
 </head>
+
 <body>
     <div class="container">
         <div class="row">
@@ -46,7 +47,8 @@
             </div>
         </div>
         <div class="row">
-            <textarea id="dataField" placeholder="Use code 301 in Search Transactions, export, and then paste all data here!"></textarea>
+            <textarea id="dataField"
+                placeholder="Use code 301 in Search Transactions, export, and then paste all data here!"></textarea>
         </div>
         <div class="row">
             <div class="col">
@@ -56,13 +58,28 @@
                 <button type="button" class="btn btn-danger" id="clearButton">Reset</button>
             </div>
         </div>
-        <!-- <div class="row">
-            <div class="col-12">
-                <table id="table">
-                    <th>Changeover Time:</th>
+        <div class="row">
+            <div class="col-3">
+                <table id="tableOne">
+                    <th>Team Member Name:</th>
                 </table>
             </div>
-        </div> -->
+            <div class="col-3">
+                <table id="tableTwo">
+                    <th>Longest Changeovers:</th>
+                </table>
+            </div>
+            <div class="col-3">
+                <table id="tableThree">
+                    <th>Team Member Name:</th>
+                </table>
+            </div>
+            <div class="col-3">
+                <table id="tableFour">
+                    <th>Average Changeover Time:</th>
+                </table>
+            </div>
+        </div>
     </div>
     <script src="changeOver.js"></script>
 </body>

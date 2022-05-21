@@ -21,3 +21,12 @@ textarea{
 #wrapper img{
     width:100%;       /* the image will now scale down as its parent gets smaller */
 }
+
+table {
+    font-size: larger;
+    font-weight: bold;
+}
+
+th{
+    color:royalblue
+}
