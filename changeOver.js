@@ -13,6 +13,11 @@ window.onload = function () {
     let allPickerChangeOvers = [];
     let timesAndPickers = [];
     let minsArr = [];
+    let avgCOByPicker = [];
+    let cleanedUPAvgChangeOver = [];
+
+    let totalCOTime = 0;
+    let likePickers = 0;
 
     $('#clearButton').click(function () {
         location.reload();
@@ -73,7 +78,6 @@ window.onload = function () {
                 console.log("end of loop")
             }
             else if (item.cart !== (arr[index + 1]).cart && item.name === (arr[index + 1]).name) {
-                // console.log(item.name + " " + item.cart + " " + item.time + " " + (arr[index + 1]).cart + " " + (arr[index + 1]).time)
                 cartsPerPicker++;
                 function diff(a, b) {
                     function toTime(a) {
@@ -108,21 +112,40 @@ window.onload = function () {
 
         //looping through pickers to track average changeover per picker
         avgPickerChangeOvers.map((item, index, arr) => {
-            let pickerCount = 0;
             if (arr[index + 1] === undefined) {
                 console.log("end of loop")
             }
-            else if(item.name !== (arr[index+1].name)){
-                pickerCount++;
-                console.log(arr)
-
+            else if (item.name === (arr[index + 1].name)) {
+                likePickers++;
+                totalCOTime = totalCOTime + item.time
             }
-            
+            else if (likePickers > 1 && item.name !== (arr[index + 1].name)) {
+                avgCOByPicker.push({ "name": arr[index - 1].name, "avgTime": (Math.round(((totalCOTime / likePickers) + Number.EPSILON) * 100) / 100) })
+                totalCOTime = 0;
+                likePickers = 0;
+            }
+            else {
+                likePickers = 0;
+                totalCOTime = 0;
+            }
         })
 
-        topOffenders.map(item => {
-            $("#tableOne").append("<tr><td>" + item.name + "</td></tr>");
+        avgCOByPicker.map(item => {
+            if (item.avgTime) {
+                cleanedUPAvgChangeOver.push(item)
+            }
+        })
+
+        let finalAverages = cleanedUPAvgChangeOver.slice().sort((a, b) => parseFloat(b.avgTime) - parseFloat(a.avgTime));
+
+        topOffenders.slice(0, 10).map((item, index) => {
+            $("#tableOne").append("<tr><td>" + (index + 1) + ". " + item.name + "</td></tr>");
             $("#tableTwo").append("<tr><td>" + item.time + "</td></tr>");
+        })
+
+        finalAverages.slice(0, 10).map((item, index) => {
+            $("#tableThree").append("<tr><td>" + (index + 1) + ". " + item.name + "</td></tr>");
+            $("#tableFour").append("<tr><td>" + item.avgTime + "</td></tr>");
         })
 
         $("#avgChangeover").text(addChangeOver());
