@@ -73,7 +73,7 @@ window.onload = function () {
                 allPickerChangeOvers.push(item, (arr[index + 1]))
             }
         })
-      
+
         //if cart does not equal next cart but name equals next name
         allPickerChangeOvers.map((item, index, arr) => {
             if (arr[index + 1] === undefined) {
@@ -94,18 +94,18 @@ window.onload = function () {
                 if (cOTimes !== "") {
                     totalCarts++;
                     let split = cOTimes.split(":")
-                    
+
                     let mins = Number(split[1]) + (Number(split[2] / 60))
                     let roundedMins = Math.round((mins + Number.EPSILON) * 100) / 100
                     if (roundedMins < 30) {
                         minsArr.push(roundedMins)
-                        timesAndPickers.push({ "name": item.name, "time": roundedMins , "cart": item.cart, "loc": item.location, "nextLoc":(arr[index + 1].location)})
+                        timesAndPickers.push({ "name": item.name, "time": roundedMins, "cart": item.cart, "loc": item.location, "nextLoc": (arr[index + 1].location) })
                     }
                 }
             }
         })
         let topOffenders = timesAndPickers.slice().sort((a, b) => parseFloat(b.time) - parseFloat(a.time));
-        
+
         //sorting allpickers alphabetically
         let avgPickerChangeOvers = timesAndPickers.slice().sort((a, b) => {
             return a.name - b.name
