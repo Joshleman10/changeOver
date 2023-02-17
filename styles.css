@@ -10,23 +10,32 @@ h4 {
 button {
     margin-top: 5px;
     margin-left:40%;
+    margin-bottom: 25px;
 }
+
 textarea{
     min-height:300px;
 }
+
 #wrapper {
     max-width: 200px; /* max-width doesn't behave correctly in legacy IE */
     margin: 0 auto;
 }
+
 #wrapper img{
     width:100%;       /* the image will now scale down as its parent gets smaller */
 }
 
 table {
-    font-size: larger;
+    font-size: 12pt;
     font-weight: bold;
 }
 
 th{
-    color:royalblue
+    color:royalblue;
+    font-size: 14pt;
+}
+
+#avg{
+    margin-right: 0%;
 }

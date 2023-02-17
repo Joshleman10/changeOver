@@ -39,7 +39,8 @@ window.onload = function () {
                 transObjectArr.push({
                     name: properDataArr[2],
                     time: properDataArr[1],
-                    cart: properDataArr[9]
+                    cart: properDataArr[9],
+                    location: properDataArr[6]
                 })
             }
         })
@@ -72,6 +73,7 @@ window.onload = function () {
                 allPickerChangeOvers.push(item, (arr[index + 1]))
             }
         })
+      
         //if cart does not equal next cart but name equals next name
         allPickerChangeOvers.map((item, index, arr) => {
             if (arr[index + 1] === undefined) {
@@ -89,27 +91,25 @@ window.onload = function () {
                 }
 
                 let cOTimes = diff(item.time, (arr[index + 1].time))
-
                 if (cOTimes !== "") {
                     totalCarts++;
                     let split = cOTimes.split(":")
+                    
                     let mins = Number(split[1]) + (Number(split[2] / 60))
                     let roundedMins = Math.round((mins + Number.EPSILON) * 100) / 100
                     if (roundedMins < 30) {
                         minsArr.push(roundedMins)
-                        timesAndPickers.push({ "name": item.name, "time": roundedMins })
+                        timesAndPickers.push({ "name": item.name, "time": roundedMins , "cart": item.cart, "loc": item.location, "nextLoc":(arr[index + 1].location)})
                     }
                 }
             }
         })
-
         let topOffenders = timesAndPickers.slice().sort((a, b) => parseFloat(b.time) - parseFloat(a.time));
-
+        
         //sorting allpickers alphabetically
         let avgPickerChangeOvers = timesAndPickers.slice().sort((a, b) => {
             return a.name - b.name
         })
-
         //looping through pickers to track average changeover per picker
         avgPickerChangeOvers.map((item, index, arr) => {
             if (arr[index + 1] === undefined) {
@@ -138,12 +138,14 @@ window.onload = function () {
 
         let finalAverages = cleanedUPAvgChangeOver.slice().sort((a, b) => parseFloat(b.avgTime) - parseFloat(a.avgTime));
 
-        topOffenders.slice(0, 10).map((item, index) => {
+        topOffenders.slice(0, 15).map((item, index) => {
             $("#tableOne").append("<tr><td>" + (index + 1) + ". " + item.name + "</td></tr>");
             $("#tableTwo").append("<tr><td>" + item.time + "</td></tr>");
+            $("#tableTwoPointOne").append("<tr><td>" + item.loc + "</td></tr>");
+            $("#tableTwoPointTwo").append("<tr><td>" + item.nextLoc + "</td></tr>");
         })
 
-        finalAverages.slice(0, 10).map((item, index) => {
+        finalAverages.slice(0, 15).map((item, index) => {
             $("#tableThree").append("<tr><td>" + (index + 1) + ". " + item.name + "</td></tr>");
             $("#tableFour").append("<tr><td>" + item.avgTime + "</td></tr>");
         })
