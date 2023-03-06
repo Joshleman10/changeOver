@@ -9,8 +9,8 @@ h4 {
 
 button {
     margin-top: 5px;
-    margin-left:40%;
     margin-bottom: 25px;
+    width: 100%;
 }
 
 textarea{
@@ -38,4 +38,22 @@ th{
 
 #avg{
     margin-right: 0%;
+}
+
+#buttonRowOne{
+    width:100%;
+}
+
+#TPT1{
+    border-bottom-style: inset;
+    width:100%;
+}
+
+#TPT2{
+    border-bottom-style: inset;
+    width:100%;
+}
+
+#TPH{
+    color:royalblue;
 }

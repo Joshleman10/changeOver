@@ -50,58 +50,78 @@
             <textarea id="dataField"
                 placeholder="Use code 301 in Search Transactions, export, and then paste all data here!"></textarea>
         </div>
-        <div class="row">
-            <div class="col">
+        <div class="row" id="buttonRow">
+            <div class="col-6">
                 <button type="button" class="btn btn-success" id="sortButton">Sort Data</button>
             </div>
-            <div class="col">
+            <div class="col-6">
                 <button type="button" class="btn btn-danger" id="clearButton">Reset</button>
             </div>
         </div>
-        <div class="row">
-            <div class="col-6" id="long">
-                <h4 id="longTitle">Longest Changeovers</h4>
-                <div class="row">
-                    <div class="col-3">
-                        <table id="tableOne">
-                            <th>TM Name:</th>
-                        </table>
-                    </div>
-                    <div class="col-3">
-                        <table id="tableTwo">
-                            <th>Longest CO:</th>
-                        </table>
-                    </div>
-                    <div class="col-3">
-                        <table id="tableTwoPointOne">
-                            <th>Last Loc:</th>
-                        </table>
-                    </div>
-                    <div class="col-3">
-                        <table id="tableTwoPointTwo">
-                            <th>First Loc:</th>
-                        </table>
-                    </div>
+        <div class="row" id="TP">
+            <div class="col-12" id="buttonRowOne">
+                <button type="button" class="btn btn-secondary" id="TPButton">Show Top Performers</button>
+                <button type="button" class="btn btn-secondary" id="hideTop">Hide Top Performers</button>
+                <H4 id="TPH">Top Performers List</H4>
+            </div>
+        </div>
+        <div class="row" id="TPsub">
+            <div class="col-6" id="TC1">
+                <table id="TPT1">
+                    <H4 id="TPH1">TM Name:</H4>
+                </table>
+            </div>
+            <div class="col-6" id="TC2">
+                <table id="TPT2">
+                    <H4 id="TPH2">Average Changeovers:</H4>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6" id="long">
+            <h4 id="longTitle">Longest Changeovers</h4>
+            <div class="row">
+                <div class="col-3">
+                    <table id="tableOne">
+                        <th>TM Name:</th>
+                    </table>
                 </div>
-            </div>
-            <div class="col-2">
-            </div>
-            <div class="col-4" id="avg">
-                <h4 id="avgTitle">Average Changeovers</h4>
-                <div class="row">
-                    <div class="col-6">
-                        <table id="tableThree">
-                            <th>TM Name:</th>
-                        </table>
-                    </div>
-                    <div class="col-6">
-                        <table id="tableFour">
-                            <th>Average CO Time:</th>
-                        </table>
-                    </div>
+                <div class="col-3">
+                    <table id="tableTwo">
+                        <th>Longest CO:</th>
+                    </table>
+                </div>
+                <div class="col-3">
+                    <table id="tableTwoPointOne">
+                        <th>Last Loc:</th>
+                    </table>
+                </div>
+                <div class="col-3">
+                    <table id="tableTwoPointTwo">
+                        <th>First Loc:</th>
+                    </table>
                 </div>
             </div>
         </div>
+        <div class="col-2">
+        </div>
+        <div class="col-4" id="avg">
+            <h4 id="avgTitle">Average Changeovers</h4>
+            <div class="row">
+                <div class="col-6">
+                    <table id="tableThree">
+                        <th>TM Name:</th>
+                    </table>
+                </div>
+                <div class="col-6">
+                    <table id="tableFour">
+                        <th>Average CO Time:</th>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
     <script src="changeOver.js"></script>
 </body>

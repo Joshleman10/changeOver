@@ -3,6 +3,19 @@ window.onload = function () {
     const mainButton = document.getElementById("sortButton");
     const dataField = document.getElementById("dataField");
 
+    let topButton = $('#TPButton')
+    let hideTop = $('#hideTop')
+    let TPH = $('#TPH')
+    let TPsub = $('#TPsub')
+    let TPT1 = $('#TPT1')
+    let TPT2 = $('#TPT2')
+    topButton.hide()
+    hideTop.hide()
+    TPH.hide()
+    TPsub.hide()
+    TPT1.hide()
+    TPT2.hide()
+
     let cartsPerPicker = 0;
     let totalCarts = 0;
 
@@ -15,6 +28,7 @@ window.onload = function () {
     let minsArr = [];
     let avgCOByPicker = [];
     let cleanedUPAvgChangeOver = [];
+    let bestPerformers = [];
 
     let totalCOTime = 0;
     let likePickers = 0;
@@ -28,7 +42,30 @@ window.onload = function () {
         return (Math.round((COT + Number.EPSILON) * 100) / 100)
     }
 
+    //showing top pickers
+    topButton.click(function () {
+        TPH.show()
+        TPT1.show()
+        TPT2.show()
+        TPsub.show()
+        topButton.hide()
+        hideTop.show()
+    });
+
+    //hiding top pickers
+    hideTop.click(function(){
+        TPH.hide()
+        TPT1.hide()
+        TPT2.hide()
+        TPsub.hide()
+        hideTop.hide()
+        topButton.show()
+    })
+
     mainButton.onclick = function () {
+
+        topButton.show()
+
         let split = dataField.value.split(" ");
         split.map((item) => {
             let fullTransaction = item.split("/")
@@ -67,7 +104,6 @@ window.onload = function () {
         //addressing changeovers by looking through alphabetized array of objects, and pushing only changeovers out.  (if name is same but cart changes, push the item)
         sortedObjectArr.map((item, index, arr) => {
             if (arr[index + 1] === undefined) {
-                console.log("end of loop")
             }
             else if (item.cart !== (arr[index + 1]).cart && item.name === (arr[index + 1]).name) {
                 allPickerChangeOvers.push(item, (arr[index + 1]))
@@ -77,7 +113,6 @@ window.onload = function () {
         //if cart does not equal next cart but name equals next name
         allPickerChangeOvers.map((item, index, arr) => {
             if (arr[index + 1] === undefined) {
-                console.log("end of loop")
             }
             else if (item.cart !== (arr[index + 1]).cart && item.name === (arr[index + 1]).name) {
                 cartsPerPicker++;
@@ -113,7 +148,6 @@ window.onload = function () {
         //looping through pickers to track average changeover per picker
         avgPickerChangeOvers.map((item, index, arr) => {
             if (arr[index + 1] === undefined) {
-                console.log("end of loop")
             }
             else if (item.name === (arr[index + 1].name)) {
                 likePickers++;
@@ -137,6 +171,20 @@ window.onload = function () {
         })
 
         let finalAverages = cleanedUPAvgChangeOver.slice().sort((a, b) => parseFloat(b.avgTime) - parseFloat(a.avgTime));
+
+        let best = finalAverages.length
+        let topTen = (finalAverages.length - 10)
+
+        finalAverages.slice(topTen, best).map((item, index) => {
+            bestPerformers.push(item)
+        })
+
+        bestPerformers.reverse().map((item, index) => {
+            let TP1 = "<tr><td>" + (index + 1) + ". " + item.name + "</td></tr>";
+            let TP2 = "<tr><td>" + item.avgTime + "</td></tr>"
+            $("#TPT1").append(TP1);
+            $("#TPT2").append(TP2);
+        })
 
         topOffenders.slice(0, 15).map((item, index) => {
             $("#tableOne").append("<tr><td>" + (index + 1) + ". " + item.name + "</td></tr>");
